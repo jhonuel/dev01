@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        REPO_URL = 'https://github.com/https://github.com/jhonuel/dev01.git'
+        REPO_URL = 'https://github.com/jhonuel/dev01.git'
         DOCKER_IMAGE = 'jhonuel/monitor01:latest'
     }
     stages {
