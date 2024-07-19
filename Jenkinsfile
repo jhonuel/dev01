@@ -1,29 +1,26 @@
 pipeline {
     agent any
+    environment {
+        REPO_URL = 'https://github.com/https://github.com/jhonuel/dev01.git'
+        DOCKER_IMAGE = 'jhonuel/monitor01:latest'
+    }
     stages {
-        stage('Build') {
+        stage('Checkout') {
+            steps {
+                git url: "${REPO_URL}", branch: 'main'
+            }
+        }
+        stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'echo Construyendo la aplicación...'
-                    // Agrega aquí los comandos reales para construir tu aplicación
-                    // Ejemplo: sh 'mvn clean install'
+                    sh 'docker build -t ${DOCKER_IMAGE} .'
                 }
             }
         }
-        stage('Tests') {
+        stage('Run Docker Container') {
             steps {
                 script {
-                    sh 'echo Ejecutando pruebas...'
-                    // Agrega aquí los comandos reales para ejecutar las pruebas
-                    // Ejemplo: sh 'mvn test'
-                }
-            }
-        }
-        stage('Deploy') {
-            steps {
-                script {
-                    sh 'docker-compose down -v'
-                    sh 'docker-compose up -d --build'
+                    sh 'docker run -d -v /var/run/docker.sock:/var/run/docker.sock ${DOCKER_IMAGE}'
                 }
             }
         }
@@ -31,20 +28,7 @@ pipeline {
     post {
         always {
             script {
-                sh 'echo Limpiando...'
-                // Agrega aquí los comandos para la limpieza post-pipeline
-            }
-        }
-        success {
-            script {
-                sh 'echo Pipeline completada exitosamente.'
-                // Puedes agregar notificaciones de éxito aquí
-            }
-        }
-        failure {
-            script {
-                sh 'echo Pipeline fallida.'
-                // Puedes agregar notificaciones de fallo aquí
+                sh 'docker ps -a'
             }
         }
     }
