@@ -9,7 +9,7 @@ RUN pip install flask --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD [ "python", "./app.py" ]
+#CMD [ "python", "./app.py", ]
 
 
 #FROM python:3.8.3-alpine
@@ -27,4 +27,4 @@ CMD [ "python", "./app.py" ]
 
 #COPY --chown=root:root . .
 
-#CMD ["python", "app.py", "app-balancer", "0.0.0.0:5000"]
+CMD ["python", "app.py", "app-balancer", "0.0.0.0:5000"]
