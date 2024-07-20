@@ -5,7 +5,7 @@ WORKDIR /app
 
 #COPY requirements.txt ./
 #RUN pip install flask --no-cache-dir -r requirements.txt
-RUN pip install flask --no-cache-dir -r requirements.txt
+RUN pip install flask 
 
 COPY . .
 
