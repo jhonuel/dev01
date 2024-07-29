@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  web1:
+    image: jhonuel/myweb-site-fronend:21
+    ports:
+      - "8081:80"
+
+  web2:
+    image: jhonuel/myweb-site-fronend:21
+    ports:
+      - "8082:80"
+
+  loadbalancer:
+    build: .
+    ports:
+      - "80:80"
+
+networks:
+  default:
+    driver: bridge
