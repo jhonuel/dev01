@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+    ServerName [SERVER_NAME]
+    ServerAlias [SERVER_ALIAS]
+    ServerAdmin admin@[SERVER_NAME]
+
+    RequestHeader set X-Real-Client-IP expr=%{REMOTE_ADDR}
+
+    Redirect / https://[SERVER_NAME]/
+
+    LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" \"%D\" \"%{X-Route}o\"" pm-apache
+
+    ErrorLog ${APACHE_LOG_DIR}/[SERVER_NAME]_error.log
+    CustomLog ${APACHE_LOG_DIR}/[SERVER_NAME]_access.log pm-apache
+</VirtualHost>

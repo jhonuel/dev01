@@ -1,0 +1,24 @@
+<VirtualHost *:80>
+    ServerName [PRIMARY-DOMAIN-NAME]
+    ServerAlias [DOMAIN-NAME2, DOMAIN-NAME3, ...]
+    DocumentRoot /var/www/html
+    ProxyRequests Off
+
+    RequestHeader set X-Real-Client-IP expr=%{REMOTE_ADDR}
+
+    <IfModule mod_headers.c>
+        <LocationMatch "(eot|otf|svg|ttf|woff|woff2)$">
+            Header set Access-Control-Allow-Origin "*"
+        </LocationMatch>
+    </IfModule>
+
+    # enable loadbalancing for web-root
+    ProxyPass / balancer://[VHOST-CLUSTER-NAME]/ nofailover=On
+    # enlarge proxy timeouts for long running requests
+    ProxyTimeout 1800
+
+    # enable stickysession-data logging
+    LogFormat "%h %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" \"%{BALANCE_ID}C\" \"%{BALANCER_SESSION_STICKY}e\" \"%{BALANCER_SESSION_ROUTE}e\"" balancer
+    CustomLog ${APACHE_LOG_DIR}/access.log balancer
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+</VirtualHost>
