@@ -27,4 +27,4 @@ COPY . .
 
 #COPY --chown=root:root . .
 
-CMD ["python", "app.py", "app-balancer", "0.0.0.0:5000"]
+CMD ["python", "app.py", "app-balancer", "0.0.0.0:80"]
